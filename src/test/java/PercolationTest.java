@@ -1,10 +1,14 @@
-import org.junit.jupiter.api.Test;
+
+import org.junit.Test;
 
 import java.util.Arrays;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static junit.framework.TestCase.assertEquals;
+import static junit.framework.TestCase.assertTrue;
+import static org.junit.Assert.assertArrayEquals;
+import static org.junit.Assert.assertFalse;
 
-class PercolationTest {
+public class  PercolationTest {
 
     @Test
     public void constructorShouldCreateGirdWithAllBlockSites() {
