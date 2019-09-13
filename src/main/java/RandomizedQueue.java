@@ -4,8 +4,11 @@ import java.util.Random;
 public class RandomizedQueue<Item> implements Iterable<Item> {
 
     private QueueNode head;
+    private int size;
 
-    public RandomizedQueue() {}
+    public RandomizedQueue() {
+        int size = 0;
+    }
 
     public static void main(String[] args) {
         RandomizedQueue<Integer> queue = new RandomizedQueue<>();
@@ -30,13 +33,7 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
     }
 
     public int size() {
-        int counter = 0;
-        QueueNode current = head;
-        while (current != null) {
-            counter++;
-            current = current.next;
-        }
-        return counter;
+        return size;
     }
 
     public void enqueue(Item data) {
@@ -46,14 +43,15 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
         QueueNode node = new QueueNode<Item>(data, null);
         if (head == null) {
             head = node;
+            size++;
         } else {
             node.next = head;
             head = node;
+            size++;
         }
     }
 
     private QueueNode getRandomNode() {
-        int size = size();
         if (size == 1) {
             return null;
         }
@@ -81,10 +79,12 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
             } else {
                 node.next = null;
             }
+            size--;
             return item;
         } else {
             Item item = (Item) head.data;
             head = null;
+            size--;
             return item;
         }
     }
@@ -105,9 +105,27 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
     }
 
 
-    class RandomizedDequeIterator<Item> implements Iterator<Item> {
-        QueueNode head;
+    private class QueueNode<Item> {
+        Item data;
+        QueueNode next;
 
+        public QueueNode(Item data, QueueNode next) {
+            this.data = data;
+            this.next = next;
+        }
+
+        public QueueNode<Item> getNext() {
+            return next;
+        }
+
+        public void setNext(QueueNode next) {
+            this.next = next;
+        }
+    }
+
+    private class RandomizedDequeIterator<Item> implements Iterator<Item> {
+
+        QueueNode head;
         public RandomizedDequeIterator(RandomizedQueue<Item> deque) {
             this.head = deque.head;
         }
@@ -127,29 +145,11 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
                 throw new java.util.NoSuchElementException("Deque is empty");
             }
         }
-
         @Override
         public void remove() {
             throw new UnsupportedOperationException("Deque is empty");
         }
-    }
 
-    class QueueNode<Item> {
-        Item data;
-        QueueNode next;
-
-        public QueueNode(Item data, QueueNode next) {
-            this.data = data;
-            this.next = next;
-        }
-
-        public QueueNode<Item> getNext() {
-            return next;
-        }
-
-        public void setNext(QueueNode next) {
-            this.next = next;
-        }
     }
 
 }

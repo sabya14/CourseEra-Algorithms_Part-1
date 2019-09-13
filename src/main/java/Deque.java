@@ -3,8 +3,10 @@ import java.util.Iterator;
 public class Deque<Item> implements Iterable<Item> {
 
     private NodeItem head, tail;
-
-    public Deque() {}
+    private int size;
+    public Deque() {
+        int size = 0;
+    }
 
     public static void main(String[] args) {
         Deque<String> deque = new Deque<>();
@@ -35,6 +37,7 @@ public class Deque<Item> implements Iterable<Item> {
             NodeItem.next = head;
             head = NodeItem;
         }
+        size++;
     }
 
     public void addLast(Item data) {
@@ -48,16 +51,11 @@ public class Deque<Item> implements Iterable<Item> {
             tail.next = NodeItem;
             tail = NodeItem;
         }
+        size++;
     }
 
     public int size() {
-        int counter = 0;
-        NodeItem current = head;
-        while (current != null) {
-            counter++;
-            current = current.next;
-        }
-        return counter;
+        return size;
     }
 
     public Item removeFirst() {
@@ -67,11 +65,13 @@ public class Deque<Item> implements Iterable<Item> {
         if (size() == 1) {
             Item item = (Item) tail.data;
             head = tail = null;
+            size--;
             return item;
         }
         if (head != null) {
             Item item = (Item) head.data;
             head = head.next;
+            size--;
             return item;
         } else {
             return null;
@@ -85,6 +85,7 @@ public class Deque<Item> implements Iterable<Item> {
         if (size() == 1) {
             Item item = (Item) tail.data;
             head = tail = null;
+            size--;
             return item;
         }
         if (tail != null) {
@@ -95,13 +96,14 @@ public class Deque<Item> implements Iterable<Item> {
             }
             current.next = null;
             tail = current;
+            size--;
             return item;
         } else {
             return null;
         }
     }
 
-    class DequeIterator<Item> implements Iterator<Item> {
+    private class DequeIterator<Item> implements Iterator<Item> {
         NodeItem head;
 
         public DequeIterator(Deque<Item> deque) {
@@ -130,7 +132,7 @@ public class Deque<Item> implements Iterable<Item> {
         }
     }
 
-    class NodeItem<Item> {
+    private class NodeItem<Item> {
         Item data;
         NodeItem next;
 
